@@ -12,6 +12,15 @@
           <div class="page-header">
             <h1>Projects</h1>      
           </div>
+            <div class="pull-right">
+                <p><a href="{% url 'user' %}">create user</a></p>
+                {{ user }}
+                {% if user.is_anonymous %}
+                <a href="{% url 'django.contrib.auth.views.login' %}">login</a>
+                {% else %}
+                <a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+                {% endif %}
+            </div>
           <nav class="navbar navbar-inner">
             <ul class="nav">
               {% block nav %}{% endblock %}

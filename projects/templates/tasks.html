@@ -34,12 +34,12 @@
 					{% csrf_token %}
 					<button type="submit" class="btn">start</button>
 					</form>
-					<form action="{%url 'projects:pause' project.id task.id %}" class="span3" method="post">
+					<form action="{%url 'projects:pause' project.id task.id  %}" class="span3" method="post">
 					{% csrf_token %}
 					<button type="submit" class="btn">pause</button>	
 					</form>	
 				</div>
-				<form action="{%url 'projects:taskCompleted' project.id task.id%}" class="" method="post">
+				<form action="{%url 'projects:taskCompleted' project.id task.id %}" class="" method="post">
 				{% csrf_token %}
 				<button type="submit" class="btn span2">completed</button>
 				</form>

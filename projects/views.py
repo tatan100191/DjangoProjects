@@ -2,8 +2,9 @@ from django.shortcuts import render, render_to_response, get_object_or_404
 from django.http import HttpResponse,  HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import datetime
-from projects.models import Project, Task
-import time
+from django.contrib.auth.decorators import permission_required
+from projects.models import Project, Task, Counter
+from django.utils.timezone import utc
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ def projectsCompleted(request):
     		project_list.append(project)
     return render(request, 'projectsCompleted.html', {'project_list': project_list})
 
+@permission_required('projects.addproject')
 def addProject(request):
 	project = Project(name=request.POST["addproject"])
 	project.save()
@@ -52,15 +54,27 @@ def addTask(request, project_id):
 	return HttpResponseRedirect(reverse('projects:tasks', args=(project_id,)))
 
 def start(request, project_id, task_id):
-	global start
-	start = time.time()
+	task = get_object_or_404(Task, id=task_id)
+	list_counter = Counter.objects.filter(task=task_id)
+	if len(list_counter) != 0:
+		last = list_counter[len(list_counter)-1]
+		if last.pause :
+			counter = task.counter_set.create(start = datetime.datetime.utcnow().replace(tzinfo=utc))
+	else:
+		counter = task.counter_set.create(start = datetime.datetime.utcnow().replace(tzinfo=utc))
 	return HttpResponseRedirect(reverse('projects:tasks', args=(project_id,)))
 
 def pause(request, project_id, task_id):
 	task = get_object_or_404(Task, id=task_id)
-	time_f =  time.time() 
-	time_int = int(time_f -  start)
-	minutes = time_int/60
-	task.hours_worked = task.hours_worked + minutes
-	task.save()
+	list_counter = Counter.objects.filter(task=task_id)
+	if  len(list_counter) != 0:
+		last = list_counter[len(list_counter)-1]
+		if not last.pause:
+			last.pause = datetime.datetime.utcnow().replace(tzinfo=utc)
+			last.save()
+			duration = last.pause - last.start
+			days, seconds = duration.days, duration.seconds
+			minutes = (days*24*60) + (seconds/60)
+			task.hours_worked = task.hours_worked + minutes
+			task.save()
 	return HttpResponseRedirect(reverse('projects:tasks', args=(project_id,)))

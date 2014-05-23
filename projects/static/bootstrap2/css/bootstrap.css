@@ -650,6 +650,7 @@ a:focus {
 
 p {
   margin: 0 0 10px;
+  color: #ffffff;
 }
 
 .lead {
@@ -1071,6 +1072,7 @@ textarea {
 label {
   display: block;
   margin-bottom: 5px;
+  color: #ffffff;
 }
 
 select,
@@ -6145,6 +6147,8 @@ a.badge:focus {
 
 .pull-right {
   float: right;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 
 .pull-left {

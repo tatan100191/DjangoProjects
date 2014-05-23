@@ -23,14 +23,19 @@
 			</table>
 			</br>
 			</br>
+			{% if perms.projects.addproject %}
 			{% for project in project_list %}
 					<form action="{% url 'projects:projectCompleted' project.id %}" >	
 					{% csrf_token %}
 							<button type="submit" class="btn span3" id="{{project.id}}">completed</button>
 					</form>
 			{% endfor %}
+			{% else %}
+    	   	<p>You don't have permissions to completed projects in the application.</p>
+    	{% endif %}
 		</div>
 
+		
 		<form action="{%url 'projects:addProject' %}" class="span6" method="post">
 		{% csrf_token %}
 			<legend>Add Project</legend>
@@ -39,4 +44,5 @@
 				<input type="submit" class="btn" value="Add">  
 			</div>	
 		</form>
+		
 	{% endblock %}

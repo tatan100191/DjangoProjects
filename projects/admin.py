@@ -1,5 +1,5 @@
 from django.contrib import admin
-from projects.models import Project, Task
+from projects.models import Project, Task, Counter
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('name', 'start_date')
@@ -12,3 +12,4 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(Counter)

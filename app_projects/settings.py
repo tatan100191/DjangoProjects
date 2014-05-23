@@ -26,10 +26,11 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+LOGOUT_URL = 'login/'
 
+LOGIN_REDIRECT_URL = '/projects/'
 
-# Application definition
+LOGIN_URL='/permission/'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -38,7 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projects'
+    'projects',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,9 +62,9 @@ WSGI_APPLICATION = 'app_projects.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
         'NAME': 'projects',                      
-        'USER': 'root',                      
+        'USER': 'tatan',                      
         'PASSWORD': 'danger',                  
         'HOST': 'localhost',                      
         'PORT': '',                     
